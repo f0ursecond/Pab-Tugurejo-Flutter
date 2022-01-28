@@ -3,11 +3,12 @@ import 'user.dart';
 import 'package:http/http.dart' as http;
 
 class Services {
-  static const String url = 'https://jsonplaceholder.typicode.com/users';
+  // static const String url = 'https://jsonplaceholder.typicode.com/users';
 
   static Future<List<User>> getUsers() async {
     try {
-      final response = await http.get(Uri.parse(url));
+      final response = await http
+          .get(Uri.parse('https://jsonplaceholder.typicode.com/users'));
       if (response.statusCode == 200) {
         List<User> list = parseUsers(response.body);
         return list;
