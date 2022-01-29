@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pab/components/loginscreen.dart';
 import 'dart:async';
 import 'package:pab/components/inputmeter.dart';
+import 'package:pab/components/payment.dart';
 
 void main() {
   runApp(const MyApp());

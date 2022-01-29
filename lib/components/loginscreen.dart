@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pab/colors.dart';
+import 'package:pab/components/payment.dart';
 import 'package:pab/fontstyle.dart';
 import 'package:pab/main.dart';
 import 'inputmeter.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
 import 'dart:async';
 
 class loginScreen extends StatefulWidget {
@@ -30,7 +32,7 @@ class _loginScreenState extends State<loginScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      body: SingleChildScrollView(
+      body: SafeArea(
         child: Container(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -151,15 +153,32 @@ class _loginScreenState extends State<loginScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: 290.0,
+                    height: 30.0,
                   ),
-                  new SvgPicture.asset(
-                    'assets/images/anjay.svg',
-                    width: 490.0,
-                    allowDrawingOutsideViewBox: true,
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.circular(50.0)),
+                    height: 50.0,
+                    width: 120.0,
+                    child: ElevatedButton(
+                      child: const Text('Login'),
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => payment()));
+                      },
+                    ),
                   ),
+                  // SizedBox(
+                  //   height: 290.0,
+                  // ),
+                  // new SvgPicture.asset(
+                  //   'assets/images/anjay.svg',
+                  //   width: 490.0,
+                  //   allowDrawingOutsideViewBox: true,
+                  // ),
                 ],
-              )
+              ),
             ],
           ),
         ),

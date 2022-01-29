@@ -16,8 +16,25 @@ class inputMeters extends StatefulWidget {
   _inputMetersState createState() => _inputMetersState();
 }
 
+class Debouncer {
+  final int milliseconds;
+  late VoidCallback action;
+  late Timer _timer;
+
+  Debouncer({required this.milliseconds});
+
+  run(VoidCallback action) {
+    if (null != _timer) {
+      _timer.cancel();
+    }
+    _timer = Timer(Duration(milliseconds: milliseconds), action);
+  }
+}
+
 class _inputMetersState extends State<inputMeters> {
+  final _debouncer = Debouncer(milliseconds: 500);
   List<User> users = [];
+  List<User> filteredUsers = [];
 
   @override
   void initState() {
@@ -50,6 +67,18 @@ class _inputMetersState extends State<inputMeters> {
                   prefixIcon: Icon(Icons.search),
                   hintText: 'Enter name or email',
                   border: InputBorder.none),
+              onChanged: (string) {
+                _debouncer.run(() {
+                  setState(() {
+                    filteredUsers = users
+                        .where((u) => (u.name
+                                .toLowerCase()
+                                .contains(string.toLowerCase()) ||
+                            u.id.toLowerCase().contains(string.toLowerCase())))
+                        .toList();
+                  });
+                });
+              },
             ),
           ),
           Expanded(
@@ -75,7 +104,7 @@ class _inputMetersState extends State<inputMeters> {
                           height: 5.0,
                         ),
                         Text(
-                          users[index].email,
+                          users[index].alamat,
                           style: TextStyle(
                             fontSize: 14.0,
                             color: Colors.grey,
