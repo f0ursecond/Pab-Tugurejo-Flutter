@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:pab/components/details.dart';
 import 'package:pab/main.dart';
 import 'package:pab/fontstyle.dart';
 import 'package:pab/colors.dart';
@@ -71,10 +72,12 @@ class _inputMetersState extends State<inputMeters> {
                 _debouncer.run(() {
                   setState(() {
                     filteredUsers = users
-                        .where((u) => (u.name
+                        .where((u) => (u.nama_pelanggan
                                 .toLowerCase()
                                 .contains(string.toLowerCase()) ||
-                            u.id.toLowerCase().contains(string.toLowerCase())))
+                            u.id_pelangggan
+                                .toLowerCase()
+                                .contains(string.toLowerCase())))
                         .toList();
                   });
                 });
@@ -85,33 +88,45 @@ class _inputMetersState extends State<inputMeters> {
             child: ListView.builder(
               padding: EdgeInsets.all(20.0),
               itemCount: users.length,
-              itemBuilder: (BuildContext context, int index) {
+              itemBuilder: (_, int index) {
                 return Card(
-                  child: Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          users[index].name,
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            color: Colors.black,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 5.0,
-                        ),
-                        Text(
-                          users[index].alamat,
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ],
-                    ),
+                  // child: Padding(
+                  //   padding: EdgeInsets.all(10.0),
+                  //   child: Column(
+                  //     mainAxisAlignment: MainAxisAlignment.start,
+                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                  //     children: <Widget>[
+                  //       Text(
+                  //         users[index].nama_pelanggan,
+                  //         style: TextStyle(
+                  //           fontSize: 16.0,
+                  //           color: Colors.black,
+                  //         ),
+                  //       ),
+                  //       SizedBox(
+                  //         height: 5.0,
+                  //       ),
+                  //       Text(
+                  //         users[index].kelurahan,
+                  //         style: TextStyle(
+                  //           fontSize: 14.0,
+                  //           color: Colors.grey,
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  child: ListTile(
+                    title: Text(users[index].nama_pelanggan),
+                    subtitle: Text(users[index].kelurahan),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => detailPage(
+                                    users: users[index],
+                                  )));
+                    },
                   ),
                 );
               },
