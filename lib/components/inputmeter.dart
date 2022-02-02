@@ -154,7 +154,7 @@ openDialog(context, nama_pelanggan, kelurahan) {
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'Stand Akhir',
+                      labelText: '',
                     ),
                   ),
                 ),
