@@ -162,7 +162,7 @@ class _loginScreenState extends State<loginScreen> {
                     height: 50.0,
                     width: 120.0,
                     child: ElevatedButton(
-                      child: const Text('Login'),
+                      child: const Text('Payment'),
                       onPressed: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) => payment()));

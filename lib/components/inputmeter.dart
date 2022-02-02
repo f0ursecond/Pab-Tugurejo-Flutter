@@ -90,42 +90,21 @@ class _inputMetersState extends State<inputMeters> {
               itemCount: users.length,
               itemBuilder: (_, int index) {
                 return Card(
-                  // child: Padding(
-                  //   padding: EdgeInsets.all(10.0),
-                  //   child: Column(
-                  //     mainAxisAlignment: MainAxisAlignment.start,
-                  //     crossAxisAlignment: CrossAxisAlignment.start,
-                  //     children: <Widget>[
-                  //       Text(
-                  //         users[index].nama_pelanggan,
-                  //         style: TextStyle(
-                  //           fontSize: 16.0,
-                  //           color: Colors.black,
-                  //         ),
-                  //       ),
-                  //       SizedBox(
-                  //         height: 5.0,
-                  //       ),
-                  //       Text(
-                  //         users[index].kelurahan,
-                  //         style: TextStyle(
-                  //           fontSize: 14.0,
-                  //           color: Colors.grey,
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
                   child: ListTile(
+                    trailing: Text('1000'),
                     title: Text(users[index].nama_pelanggan),
                     subtitle: Text(users[index].kelurahan),
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => detailPage(
-                                    users: users[index],
-                                  )));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => detailPage(
+                      //               users: users[index],
+                      //             ),
+                      //             ),
+                      //             );
+                      openDialog(context, users[index].nama_pelanggan,
+                          users[index].kelurahan);
                     },
                   ),
                 );
@@ -136,4 +115,66 @@ class _inputMetersState extends State<inputMeters> {
       ),
     );
   }
+}
+
+openDialog(context, nama_pelanggan, kelurahan) {
+  return showDialog(
+    context: context,
+    builder: (context) {
+      return Center(
+        child: Material(
+          type: MaterialType.transparency,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.white,
+            ),
+            padding: EdgeInsets.all(15),
+            width: MediaQuery.of(context).size.width * 0.7,
+            height: MediaQuery.of(context).size.width * 0.7,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Nama: ' + nama_pelanggan),
+                Text('Kelurahan: ' + kelurahan),
+                Text('RT: '),
+                Text('Nomor Telpon: '),
+                Text('Alamat: '),
+                Text('Stand Awal: '),
+                Container(
+                  margin: EdgeInsets.only(top: 50.0, left: 120.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  width: 200.0,
+                  height: 50.0,
+                  child: TextFormField(
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Stand Akhir',
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 230.0),
+                  child: TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      'Submit',
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      );
+    },
+  );
 }

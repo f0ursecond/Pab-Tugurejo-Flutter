@@ -1,8 +1,8 @@
 class User {
+  String id_pelangggan;
   String nama_pelanggan;
   // String alamat;
   String kelurahan;
-  String id_pelangggan;
 
   //User({required this.id, required this.name, required this.alamat});
   User(
@@ -12,16 +12,17 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-        // id: json["id"],
-        // name: json["name"] as String,
-        // rtrw: json["email"],
+      // id: json["id"],
+      // name: json["name"] as String,
+      // rtrw: json["email"],
 
-        // nama: json["name"],
-        // alamat: json["alamat"],
-        // id: json["id"],
+      // nama: json["name"],
+      // alamat: json["alamat"],
+      // id: json["id"],
 
-        nama_pelanggan: json["nama_pelanggan"],
-        kelurahan: json["kelurahan"],
-        id_pelangggan: json["id_pelanggan"]);
+      id_pelangggan: json["id_pelanggan"],
+      nama_pelanggan: json["nama_pelanggan"],
+      kelurahan: json["kelurahan"],
+    );
   }
 }

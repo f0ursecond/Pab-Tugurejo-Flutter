@@ -20,11 +20,27 @@ class detailPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Detail'),
       ),
-      body: Column(
-        children: [
-          Text(users.nama_pelanggan),
-          Text(users.kelurahan),
-        ],
+      body: SafeArea(
+        child: Container(
+          padding: EdgeInsets.only(left: 15.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Nama: ' + users.nama_pelanggan,
+                style: mainHeader,
+              ),
+              Text(
+                'Kelurahan: ' + users.kelurahan,
+                style: mainHeader,
+              ),
+              Text(
+                'Id Pelanggan: ' + users.id_pelangggan,
+                style: mainHeader,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
