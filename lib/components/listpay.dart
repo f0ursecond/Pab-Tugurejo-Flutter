@@ -9,30 +9,14 @@ import 'dart:async';
 import 'package:pab/user.dart';
 import 'package:pab/services.dart';
 
-class inputMeters extends StatefulWidget {
-  inputMeters({Key? key}) : super(key: key);
+class listPay extends StatefulWidget {
+  listPay({Key? key}) : super(key: key);
 
   @override
-  _inputMetersState createState() => _inputMetersState();
+  State<listPay> createState() => _listPayState();
 }
 
-class Debouncer {
-  final int milliseconds;
-  late VoidCallback action;
-  late Timer _timer;
-
-  Debouncer({required this.milliseconds});
-
-  run(VoidCallback action) {
-    if (null != _timer) {
-      _timer.cancel();
-    }
-    _timer = Timer(Duration(milliseconds: milliseconds), action);
-  }
-}
-
-class _inputMetersState extends State<inputMeters> {
-  final _debouncer = Debouncer(milliseconds: 500);
+class _listPayState extends State<listPay> {
   List<User> users = [];
   List<User> filteredUsers = [];
   String standAkhir = '';
@@ -40,7 +24,7 @@ class _inputMetersState extends State<inputMeters> {
   @override
   void initState() {
     super.initState();
-    controller = TextEditingController();
+
     Services.getUsers().then((usersFromServer) {
       setState(() {
         users = usersFromServer;
@@ -49,18 +33,11 @@ class _inputMetersState extends State<inputMeters> {
   }
 
   @override
-  void dispose() {
-    controller.dispose();
-    // TODO: implement dispose
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: Text('Input Meter Tugurejo'),
+        title: Text('Pembayaran'),
       ),
       body: Column(
         children: [
@@ -77,20 +54,6 @@ class _inputMetersState extends State<inputMeters> {
                   prefixIcon: Icon(Icons.search),
                   hintText: 'Enter name or email',
                   border: InputBorder.none),
-              onChanged: (string) {
-                _debouncer.run(() {
-                  setState(() {
-                    filteredUsers = users
-                        .where((u) => (u.namapelanggan
-                                .toLowerCase()
-                                .contains(string.toLowerCase()) ||
-                            u.idpelanggan
-                                .toLowerCase()
-                                .contains(string.toLowerCase())))
-                        .toList();
-                  });
-                });
-              },
             ),
           ),
           Expanded(
@@ -115,11 +78,17 @@ class _inputMetersState extends State<inputMeters> {
                       // openDialog(context, users[index].nama_pelanggan,
                       //     users[index].kelurahan);
                       final standAkhir = await openDialog(
-                        context,
-                        users[index].namapelanggan,
-                        users[index].jalan,
-                        users[index].idpelanggan,
-                      );
+                          context,
+                          users[index].idpelanggan,
+                          users[index].namapelanggan,
+                          users[index].rt,
+                          users[index].rw,
+                          users[index].nomorRumah,
+                          users[index].jalan,
+                          users[index].kelurahan,
+                          users[index].kota,
+                          users[index].nomorTelpon,
+                          users[index].standAwal);
                       if (standAkhir == null || standAkhir.isEmpty) return;
 
                       setState(() => this.standAkhir = standAkhir);
@@ -135,18 +104,19 @@ class _inputMetersState extends State<inputMeters> {
   }
 }
 
-TextEditingController controller = new TextEditingController();
-
 openDialog(
   context,
-  nama_pelanggan,
+  idpelanggan,
+  namapelanggan,
+  rt,
+  rw,
+  nomorRumah,
   jalan,
-  id_pelanggan,
+  kelurahan,
+  kota,
+  nomorTelpon,
+  standAwal,
 ) {
-  void submit() {
-    Navigator.of(context).pop(controller.text.toString());
-  }
-
   ;
 
   return showDialog(
@@ -162,37 +132,46 @@ openDialog(
             ),
             padding: EdgeInsets.all(15),
             width: MediaQuery.of(context).size.width * 0.7,
-            height: MediaQuery.of(context).size.width * 0.75,
+            height: MediaQuery.of(context).size.width * 0.6,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Nama: ' + nama_pelanggan),
-                Text('Kelurahan: '),
-                Text('Jalan: ' + jalan),
-                Text('RT: '),
-                Text('RW: '),
-                Text('Nomor Telpon: '),
-                Text('Alamat: '),
-                Text('Stand Awal: '),
-                Container(
-                  margin: EdgeInsets.only(top: 50.0, left: 120.0),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  width: 200.0,
-                  height: 50.0,
-                  child: TextFormField(
-                    controller: controller,
-                    autofocus: true,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      prefixText: 'Rp',
-                      border: OutlineInputBorder(),
-                      labelText: 'Stand Akhir',
-                    ),
-                  ),
+                Text(
+                  'Nama: ' + namapelanggan,
+                  style: subHeader,
+                ),
+                Text(
+                  'Kelurahan: ' + kelurahan,
+                  style: subHeader,
+                ),
+                Text(
+                  'Jalan: ' + jalan,
+                  style: subHeader,
+                ),
+                Text(
+                  'RT: ' + rt,
+                  style: subHeader,
+                ),
+                Text(
+                  'RW: ' + rw,
+                  style: subHeader,
+                ),
+                Text(
+                  'Nomor Telpon: ' + nomorTelpon,
+                  style: subHeader,
+                ),
+                Text(
+                  'Jalan: ' + jalan,
+                  style: subHeader,
+                ),
+                Text(
+                  'Stand Awal: ' + standAwal,
+                  style: subHeader,
+                ),
+                Text(
+                  'Stand Akhir: Rp50.000',
+                  style: subHeader,
                 ),
                 SizedBox(
                   height: 10.0,
@@ -200,9 +179,9 @@ openDialog(
                 Container(
                   margin: EdgeInsets.only(left: 230.0),
                   child: TextButton(
-                    onPressed: submit,
+                    onPressed: () {},
                     child: Text(
-                      'Submit',
+                      'Bayar',
                     ),
                   ),
                 )

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pab/colors.dart';
+import 'package:pab/components/listpay.dart';
 import 'package:pab/components/payment.dart';
 import 'package:pab/fontstyle.dart';
 import 'package:pab/main.dart';
@@ -165,7 +166,7 @@ class _loginScreenState extends State<loginScreen> {
                       child: const Text('Payment'),
                       onPressed: () {
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => payment()));
+                            MaterialPageRoute(builder: (context) => listPay()));
                       },
                     ),
                   ),

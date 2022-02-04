@@ -15,8 +15,8 @@ class payment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Scaffold(
-        body: ClipPath(
+      body: SafeArea(
+        child: ClipPath(
           clipper: anjay(),
           child: Container(
             width: double.infinity,
@@ -40,12 +40,11 @@ class anjay extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     var path = new Path();
-    path.lineTo(0, size.height - 100);
-    var controllPoint = Offset(50, size.height);
-    var endPoint = Offset(size.width / 2, size.height);
+    path.lineTo(0, size.height);
     path.quadraticBezierTo(
-        controllPoint.dx, controllPoint.dy, endPoint.dx, endPoint.dy);
-    path.lineTo(size.width, size.height);
+        size.width / 4, size.height - 40, size.width / 2, size.height - 20);
+    path.quadraticBezierTo(
+        3 / 4 * size.width, size.height, size.width, size.height - 30);
     path.lineTo(size.width, 0);
     return path;
   }
