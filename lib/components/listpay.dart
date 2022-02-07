@@ -63,7 +63,7 @@ class _listPayState extends State<listPay> {
               itemBuilder: (_, int index) {
                 return Card(
                   child: ListTile(
-                    trailing: Text('Rp50.000'),
+                    trailing: Text('Rp.' + users[index].stand_akhir),
                     title: Text(users[index].namapelanggan),
                     subtitle: Text(users[index].jalan),
                     onTap: () async {
@@ -78,17 +78,19 @@ class _listPayState extends State<listPay> {
                       // openDialog(context, users[index].nama_pelanggan,
                       //     users[index].kelurahan);
                       final standAkhir = await openDialog(
-                          context,
-                          users[index].idpelanggan,
-                          users[index].namapelanggan,
-                          users[index].rt,
-                          users[index].rw,
-                          users[index].nomorRumah,
-                          users[index].jalan,
-                          users[index].kelurahan,
-                          users[index].kota,
-                          users[index].nomorTelpon,
-                          users[index].standAwal);
+                        context,
+                        users[index].idpelanggan,
+                        users[index].namapelanggan,
+                        users[index].rt,
+                        users[index].rw,
+                        users[index].nomorRumah,
+                        users[index].jalan,
+                        users[index].kelurahan,
+                        users[index].kota,
+                        users[index].nomorTelpon,
+                        users[index].standAwal,
+                        users[index].stand_akhir,
+                      );
                       if (standAkhir == null || standAkhir.isEmpty) return;
 
                       setState(() => this.standAkhir = standAkhir);
@@ -116,6 +118,7 @@ openDialog(
   kota,
   nomorTelpon,
   standAwal,
+  stand_akhir,
 ) {
   ;
 
@@ -170,7 +173,7 @@ openDialog(
                   style: subHeader,
                 ),
                 Text(
-                  'Stand Akhir: Rp50.000',
+                  ('Stand Akhir: ' + stand_akhir),
                   style: subHeader,
                 ),
                 SizedBox(

@@ -7,18 +7,18 @@ String welcomeToJson(List<User> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class User {
-  User({
-    required this.idpelanggan,
-    required this.namapelanggan,
-    required this.rt,
-    required this.rw,
-    required this.nomorRumah,
-    required this.jalan,
-    required this.kelurahan,
-    required this.kota,
-    required this.nomorTelpon,
-    required this.standAwal,
-  });
+  User(
+      {required this.idpelanggan,
+      required this.namapelanggan,
+      required this.rt,
+      required this.rw,
+      required this.nomorRumah,
+      required this.jalan,
+      required this.kelurahan,
+      required this.kota,
+      required this.nomorTelpon,
+      required this.standAwal,
+      required this.stand_akhir});
 
   String idpelanggan;
   String namapelanggan;
@@ -30,6 +30,7 @@ class User {
   String kota;
   String nomorTelpon;
   String standAwal;
+  String stand_akhir;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         idpelanggan: json["idpelanggan"],
@@ -42,6 +43,7 @@ class User {
         kota: json["kota"],
         nomorTelpon: json["nomor_telpon"],
         standAwal: json["stand_awal"],
+        stand_akhir: json["stand_akhir"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -55,6 +57,7 @@ class User {
         "kota": kota,
         "nomor_telpon": nomorTelpon,
         "stand_awal": standAwal,
+        "stand_akhir": stand_akhir,
       };
 }
 
