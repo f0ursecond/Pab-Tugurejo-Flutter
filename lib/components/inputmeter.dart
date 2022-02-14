@@ -88,10 +88,10 @@ class _inputMetersState extends State<inputMeters> {
                 _debouncer.run(() {
                   setState(() {
                     filteredUsers = users
-                        .where((u) => (u.namapelanggan
+                        .where((u) => (u.nama
                                 .toLowerCase()
                                 .contains(string.toLowerCase()) ||
-                            u.idpelanggan
+                            u.userid
                                 .toLowerCase()
                                 .contains(string.toLowerCase())))
                         .toList();
@@ -108,39 +108,28 @@ class _inputMetersState extends State<inputMeters> {
                 return Card(
                   child: ListTile(
                     trailing: Text('Rp' + users[index].stand_akhir),
-                    title: Text(users[index].namapelanggan),
-                    subtitle: Text(users[index].jalan),
+                    title: Text(users[index].nama),
+                    subtitle: Text(users[index].alamat),
                     onTap: () async {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => detailPage(
-                      //               users: users[index],
-                      //             ),
-                      //             ),
-                      //             );
-                      // openDialog(context, users[index].nama_pelanggan,
-                      //     users[index].kelurahan);
-                      final standAkhir = await openDialog(
-                        context: context,
-                        idpelanggan: users[index].idpelanggan,
-                        namapelanggan: users[index].namapelanggan,
-                        rt: users[index].rt,
-                        rw: users[index].rw,
-                        nomorRumah: users[index].nomorRumah,
-                        jalan: users[index].jalan,
-                        kelurahan: users[index].kelurahan,
-                        kota: users[index].kota,
-                        nomorTelpon: users[index].nomorTelpon,
-                        standAwal: users[index].standAwal,
-                        stand_akhir: users[index].stand_akhir,
-                        // idpelanggan: users[index].namapelanggan,
-                        // stand_akhir: users[index].stand_akhir,
-                      );
+                      Navigator.push(
+                          context,
+                          openDialog(
+                            context: context,
+                            id: users[index].id,
+                            userid: users[index].userid,
+                            nama: users[index].nama,
+                            alamat: users[index].alamat,
+                            kelurahan: users[index].kelurahan,
+                            notelp: users[index].notelp,
+                            stand_awal: users[index].stand_awal,
+                            stand_akhir: users[index].stand_akhir,
 
-                      if (standAkhir == null || standAkhir.isEmpty) return;
+                            // final standAkhir = await openDialog(
+                          ));
 
-                      setState(() => this.standAkhir = standAkhir);
+                      // if (standAkhir == null || standAkhir.isEmpty) return;
+
+                      // setState(() => this.standAkhir = standAkhir);
                     },
                   ),
                 );
@@ -155,56 +144,46 @@ class _inputMetersState extends State<inputMeters> {
 
 openDialog({
   context,
-  idpelanggan,
-  namapelanggan,
-  rt,
-  rw,
-  nomorRumah,
-  jalan,
+  id,
+  userid,
+  nama,
+  alamat,
   kelurahan,
-  kota,
-  nomorTelpon,
-  standAwal,
+  notelp,
+  stand_awal,
   stand_akhir,
 }) {
-  // TextEditingController standakhirController =
-  //     TextEditingController(text: stand_akhir);
-  // Services services = Services();
-  final standakhirController = TextEditingController(text: stand_akhir);
-  Services services = Services();
+  TextEditingController standakhirController =
+      TextEditingController(text: stand_akhir);
 
-  updateData() async {
-    Navigator.of(context).pop();
-
-    var url = "https://61f4b84262f1e300173c3ee2.mockapi.io/pab/";
-    http.put(Uri.parse(url), body: {
-      "idpelanggan": idpelanggan,
-      "stand_akhir": standakhirController.text,
+  Future updateData() async {
+    Navigator.pop(context);
+    String stand_akhir = standakhirController.text;
+    if (stand_akhir == "") {
+      print("Data tidak boleh kosong");
+      return;
+    }
+    final response =
+        await http.post(Uri.parse('http://192.168.1.13/update.php'), body: {
+      "id": id,
+      "userid": userid,
+      "nama": nama,
+      "alamat": alamat,
+      "kelurahan": kelurahan,
+      "notelp": notelp,
+      "stand_awal": stand_awal,
+      "stand_akhir": stand_akhir,
+    }, headers: {
+      'Accept': 'application/json'
     });
-
-    // var stand_akhir = standakhirController.text;
-    // var id;
-    // if (stand_akhir.isNotEmpty) {
-    //   // var url = "https://61f4b84262f1e300173c3ee2.mockapi.io/pab";
-
-    //   var bodyData = json.encode({stand_akhir: stand_akhir});
-    //   var response = await http.put(
-    //       Uri.parse('https://61f4b84262f1e300173c3ee2.mockapi.io' +
-    //           '/pab/' +
-    //           id.toString()),
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //         "Accept": "application/json"
-    //       },
-    //       body: bodyData);
-    //   if (response.statusCode == 200) {
-    //     var messageSucces = json.decode(response.body)['message'];
-    //     print('Update Sukses');
-    //   } else {
-    //     print('Update Gagal');
-    //   }
-    // }
+    if (response.statusCode == 201) {
+      print('Data Berhasil Disimpan');
+    } else {
+      print('Data gagal disimpan');
+    }
   }
+
+  ;
 
   return showDialog(
     context: context,
@@ -225,7 +204,11 @@ openDialog({
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Nama: ' + namapelanggan,
+                  'Nama: ' + nama,
+                  style: subHeader,
+                ),
+                Text(
+                  'Id Pelanggan: ' + userid,
                   style: subHeader,
                 ),
                 Text(
@@ -233,31 +216,15 @@ openDialog({
                   style: subHeader,
                 ),
                 Text(
-                  'Jalan: ' + jalan,
+                  'Alamat: ' + alamat,
                   style: subHeader,
                 ),
                 Text(
-                  'RT: ' + rt,
+                  'Nomor Telpon: ' + notelp,
                   style: subHeader,
                 ),
                 Text(
-                  'RW: ' + rw,
-                  style: subHeader,
-                ),
-                Text(
-                  'Nomor Telpon: ' + nomorTelpon,
-                  style: subHeader,
-                ),
-                Text(
-                  'Jalan: ' + jalan,
-                  style: subHeader,
-                ),
-                Text(
-                  'Kota: ' + kota,
-                  style: subHeader,
-                ),
-                Text(
-                  'Stand Awal: ' + standAwal,
+                  'Stand Awal: ' + stand_awal,
                   style: subHeader,
                 ),
                 Container(

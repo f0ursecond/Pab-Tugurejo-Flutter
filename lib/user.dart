@@ -7,56 +7,45 @@ String welcomeToJson(List<User> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class User {
-  User(
-      {required this.idpelanggan,
-      required this.namapelanggan,
-      required this.rt,
-      required this.rw,
-      required this.nomorRumah,
-      required this.jalan,
-      required this.kelurahan,
-      required this.kota,
-      required this.nomorTelpon,
-      required this.standAwal,
-      required this.stand_akhir});
+  User({
+    required this.id,
+    required this.userid,
+    required this.nama,
+    required this.alamat,
+    required this.kelurahan,
+    required this.notelp,
+    required this.stand_awal,
+    required this.stand_akhir,
+  });
 
-  String idpelanggan;
-  String namapelanggan;
-  String rt;
-  String rw;
-  String nomorRumah;
-  String jalan;
-  String kelurahan;
-  String kota;
-  String nomorTelpon;
-  String standAwal;
-  String stand_akhir;
+  final String id;
+  final String userid;
+  final String nama;
+  final String alamat;
+  final String kelurahan;
+  final String notelp;
+  final String stand_awal;
+  final String stand_akhir;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-        idpelanggan: json["idpelanggan"],
-        namapelanggan: json["namapelanggan"],
-        rt: json["RT"],
-        rw: json["RW"],
-        nomorRumah: json["nomor_rumah"],
-        jalan: json["jalan"],
+        id: json["id"],
+        userid: json["userid"],
+        nama: json['nama'],
+        alamat: json["alamat"],
         kelurahan: json["kelurahan"],
-        kota: json["kota"],
-        nomorTelpon: json["nomor_telpon"],
-        standAwal: json["stand_awal"],
+        notelp: json["notelp"],
+        stand_awal: json["stand_awal"],
         stand_akhir: json["stand_akhir"],
       );
 
   Map<String, dynamic> toJson() => {
-        "idpelanggan": idpelanggan,
-        "namapelanggan": namapelanggan,
-        "RT": rt,
-        "RW": rw,
-        "nomor_rumah": nomorRumah,
-        "jalan": jalan,
+        "id": id,
+        "userid": userid,
+        "nama": nama,
+        "alamat": alamat,
         "kelurahan": kelurahan,
-        "kota": kota,
-        "nomor_telpon": nomorTelpon,
-        "stand_awal": standAwal,
+        "notelp": notelp,
+        "stand_awal": stand_awal,
         "stand_akhir": stand_akhir,
       };
 }
